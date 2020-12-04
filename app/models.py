@@ -1,5 +1,5 @@
-From datetime import datetime
-From app import db, login
+from datetime import datetime
+from app import db, login
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     companyName = db.Column(db.String(140))
     memberSince = db.Column(db.DateTime, default=datetime.?)
     userToLocation = db.relationship("UserToLocation", backref='user', lazy='dynamic')
-    paymentInfo = db.relationship(“PaymentInfo”, backref=’user’, lazy=’dynamic’)
+    paymentInfo = db.relationship("PaymentInfo", backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -22,24 +22,24 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 
-Class Location(db.Model):
+class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     zipcode = db.Column(db.String(64), index=True)
     city = db.Column(db.String(64), index=True)
     state = db.Column(db.String(64), index=True)
     address = db.Column(db.String(120), index=True, unique=True)
     country = db.Column(db.String(64), index=True)
-    userToLocation=db.relationship(“UserToLocation”,backref=’location’, lazy=’dynamic’)
+    userToLocation=db.relationship("UserToLocation",backref='location', lazy='dynamic')
 
- def __repr__(self):
+    def __repr__(self):
         return '<Location: {}>'.format(self.zipcode)
 
 
-Class UserToLocation(db.Model):
+class UserToLocation(db.Model):
     Id = db.Column(db.Integer, primary_key=True)
-    userID = db.Column(db.Integer, db.ForeignKey(‘user.id’))
-    locationID = db.Column(db.Integer, db.ForeignKey(‘location.id’))
-    Product = db.relationship(“Product”,backref=’user to location’, lazy=’dynamic’)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    locationID = db.Column(db.Integer, db.ForeignKey('location.id'))
+    Product = db.relationship("Product",backref='user to location', lazy='dynamic')
 
     def __repr__(self):
         return '<UserToLocation {}>'.format(self.body)
@@ -47,20 +47,20 @@ Class UserToLocation(db.Model):
 
 
 
-Class PaymentInfo(db.Model)
+class PaymentInfo(db.Model)
   id=db.Column(db.Integer,primary_key=True)
   cardType=db.Column(db.String(20), index=True)
   cardNumber=db.Column(db.String(9), index=True)
   securityNumber=db.Column(db.String(3))
-  userId=db.Column(db.Integer,db.ForeignKey(‘user.id’))
+  userId=db.Column(db.Integer,db.ForeignKey('user.id'))
 
-Def __repr__(self):
-    Return ‘<Payment Info {}>’.format(User.query.filter_by(id=self.userId).first().firstName)
+    def __repr__(self):
+        return '<Payment Info {}>'.format(User.query.filter_by(id=self.userId).first().firstName)
 
 
-Class Product(db.Model):
+class Product(db.Model):
     Id = db.Column(db.Integer, primary_key=True)
-    userToLocationID = db.Column(db.Integer, db.ForeignKey(‘userToLocation.id’))
+    userToLocationID = db.Column(db.Integer, db.ForeignKey('userToLocation.id'))
     dateHarvested = db.Column(db.DateTime, default=datetime.?)
     amount = db.Column(db.String(64), index=True)
     name = db.Column(db.String(64), index=True)
